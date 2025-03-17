@@ -16,6 +16,16 @@ defmodule Jumpapp.ApiClient do
     request(:get, "#{intercom_url()}/admins", intercom_headers())
   end
 
+  def add_intercom_note(conversation_id, message) do
+    params = %{
+      "type" => "admin",
+      "admin_id" => intercom_admin_id(),
+      "message_type" => "note",
+      "body" => message
+    }
+    request(:post, "#{intercom_url()}/conversations/#{conversation_id}/reply", params, intercom_headers())
+  end
+
   # Notion endpoints
   def list_notion_tickets do
     request(:post, "#{notion_url()}/databases/#{notion_database_id()}/query", %{}, notion_headers())
@@ -52,6 +62,14 @@ defmodule Jumpapp.ApiClient do
 
   def invite_users(channel_id, user_ids) when is_list(user_ids) do
     request(:post, "#{slack_url()}/conversations.invite", %{channel: channel_id, users: Enum.join(user_ids, ",")}, slack_headers())
+  end
+
+  def post_slack_message(channel_id, text) do
+    request(:post, "#{slack_url()}/chat.postMessage", %{
+      channel: channel_id,
+      text: text,
+      parse: "mrkdwn"
+    }, slack_headers())
   end
 
   # Google Gemini endpoints
@@ -119,4 +137,5 @@ defmodule Jumpapp.ApiClient do
   defp notion_database_id, do: System.get_env("NOTION_DATABASE_ID")
   defp slack_api_token, do: System.get_env("SLACK_API_TOKEN")
   defp google_gemini_api_key, do: System.get_env("GOOGLE_GEMINI_API_KEY")
+  defp intercom_admin_id, do: System.get_env("INTERCOM_ADMIN_ID")
 end

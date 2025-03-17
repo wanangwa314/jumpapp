@@ -13,7 +13,8 @@ config :jumpapp,
 
 config :jumpapp, Jumpapp.Scheduler,
   jobs: [
-    {"* * * * * *", {Jumpapp.Intercom.RequestProcessor, :process_pending_requests, []}}
+    {"* * * * * *", {Jumpapp.Intercom.RequestProcessor, :process_pending_requests, []}},
+    {"*/5 * * * *", {Jumpapp.TicketResolver, :check_resolved_tickets, []}}  # Run every 5 minutes
   ]
 
 # Configures the endpoint
