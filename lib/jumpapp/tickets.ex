@@ -23,15 +23,22 @@ defmodule Jumpapp.Tickets do
     |> Repo.all()
   end
 
+  # Jumpapp.Tickets.list_all_tickets()
+  def list_all_tickets do
+    Ticket
+    |> order_by([t], [desc: t.updated_at])
+    |> Repo.all()
+  end
+
   def create_ticket(attrs \\ %{}) do
     %Ticket{}
     |> Ticket.changeset(attrs)
     |> Repo.insert(
       on_conflict: [set: [
-        status: attrs.status,
-        title: attrs.title,
-        slack_channel: attrs.slack_channel,
-        intercom_conversation_ids: attrs.intercom_conversation_ids,
+        status: attrs[:status] || attrs["status"],
+        title: attrs[:title] || attrs["title"],
+        slack_channel: attrs[:slack_channel] || attrs["slack_channel"],
+        intercom_conversation_ids: attrs[:intercom_conversation_ids] || attrs["intercom_conversation_ids"],
         updated_at: DateTime.utc_now()
       ]],
       conflict_target: [:notion_id]

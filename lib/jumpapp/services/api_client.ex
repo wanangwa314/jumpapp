@@ -53,15 +53,23 @@ defmodule Jumpapp.ApiClient do
   end
 
   def create_channel(name) do
-    request(:post, "#{slack_url()}/conversations.create", %{name: name}, slack_headers())
+    post_slack("/conversations.create", %{name: name})
   end
 
   def set_channel_topic(channel_id, topic) do
-    request(:post, "#{slack_url()}/conversations.setTopic", %{channel: channel_id, topic: topic}, slack_headers())
+    post_slack("/conversations.setTopic", %{channel: channel_id, topic: topic})
+  end
+
+  def invite_user(channel_id, user_id) do
+    post_slack("/conversations.invite", %{channel: channel_id, users: user_id})
   end
 
   def invite_users(channel_id, user_ids) when is_list(user_ids) do
     request(:post, "#{slack_url()}/conversations.invite", %{channel: channel_id, users: Enum.join(user_ids, ",")}, slack_headers())
+  end
+
+  def list_users do
+    get_slack("/users.list")
   end
 
   def post_slack_message(channel_id, text) do
@@ -92,6 +100,14 @@ defmodule Jumpapp.ApiClient do
       {:error, %{reason: reason}} ->
         {:error, reason}
     end
+  end
+
+  defp get_slack(path) do
+    request(:get, "#{slack_url()}#{path}", slack_headers())
+  end
+
+  defp post_slack(path, body) do
+    request(:post, "#{slack_url()}#{path}", body, slack_headers())
   end
 
   # Base URLs

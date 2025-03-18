@@ -35,15 +35,12 @@ defmodule Jumpapp.TicketMatcher do
   end
 
   defp update_existing_ticket(ticket, conversation, conversation_url, conversation_id) do
-    # Get existing conversation URLs and append the new one
     updated_urls = [conversation_url | ticket["intercom_conversations"]]
     |> Enum.uniq()
 
-    # Get existing conversation IDs and append the new one
     updated_ids = [conversation_id | ticket["intercom_conversation_ids"]]
     |> Enum.uniq()
 
-    # Use the stored Slack channel ID from the ticket
     channel_id = ticket["slack_channel"]
 
     with {:ok, _} <- NotionService.update_ticket_urls(ticket["id"], updated_urls),
