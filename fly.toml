@@ -1,0 +1,23 @@
+app = "jumpapp2"
+
+kill_signal = "SIGTERM"
+kill_timeout = 5
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PHX_HOST = "jumpapp2.fly.dev"
+  PORT = "8080"
+
+[mounts]
+  source = "sqlite_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]

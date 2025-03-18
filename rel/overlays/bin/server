@@ -1,0 +1,11 @@
+#!/bin/sh
+# Docker entrypoint script
+
+# Create the SQLite directory if it doesn't exist
+mkdir -p /data/sqlite
+
+# Run migrations
+/app/bin/jumpapp eval "JumpApp.Release.migrate"
+
+# Start the Phoenix app
+exec /app/bin/jumpapp start

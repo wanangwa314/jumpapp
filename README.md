@@ -16,3 +16,12 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+## List of required environment variables
+INTERCOM_API_KEY
+NOTION_API_KEY
+NOTION_DATABASE_ID
+SLACK_API_TOKEN
+GOOGLE_GEMINI_API_KEY
+INTERCOM_ADMIN_ID
+INTERCOM_APP_ID
