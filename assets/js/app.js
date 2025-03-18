@@ -23,11 +23,11 @@ import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 
-// import Intercom from "@intercom/messenger-js-sdk";
-// const APP_ID = process.env.INTERCOM_APP_ID;
-// Intercom({
-//   app_id: APP_ID
-// })
+import Intercom from "@intercom/messenger-js-sdk";
+const APP_ID = process.env.INTERCOM_APP_ID;
+Intercom({
+  app_id: APP_ID
+})
 
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
